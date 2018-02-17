@@ -9,20 +9,7 @@ import BooksForm from './booksForm';
 import Cart from './cart';
 class BooksList extends React.Component {
     componentDidMount() {
-        this.props.getBooks(
-                [{
-                        id: 1,
-                        title: 'this is the book title',
-                        description: 'this is the book description',
-                        price: 43.33
-                    },
-                    {
-                        id: 2,
-                        title: 'this is the second book title',
-                        description: 'this is the secondbook description',
-                        price: 60
-                    }]
-                )
+        this.props.getBooks()
     }
 
     render() {
@@ -30,9 +17,9 @@ class BooksList extends React.Component {
                 this.props.books.map(function (booksArr) {
                     return(
                             <Col xs={12} sm={6} md={4}
-                                 key={booksArr.id}>
+                                 key={booksArr._id}>
                             <BookItem
-                                id= {booksArr.id}
+                                _id= {booksArr._id}
                                 title={booksArr.title}
                                 description={booksArr.description}
                                 price={booksArr.price}/>
@@ -41,17 +28,17 @@ class BooksList extends React.Component {
                 })
         return(
                 <Grid>
-        <Row>
-        <Cart/>
-        </Row>
+                    <Row>
+                        <Cart/>
+                    </Row>
                     <Row>
                         <Col xs={12} sm={6}>
                         <BooksForm />
                         </Col>
-                        <Col xs={12} sm={6}>
+                
                         {booksList}
-                        </Col>
-                        
+                
+                
                     </Row>
                 </Grid>
                 )
