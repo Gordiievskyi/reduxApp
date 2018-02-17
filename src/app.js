@@ -26,20 +26,9 @@ render(
         );
 
 /// STEP 2 create and dispatch actions
-store.dispatch(postBooks(
-        [{
-                id: 1,
-                title: 'this is the book title',
-                description: 'this is the book description',
-                price: 33.33
-            },
-            {
-                id: 2,
-                title: 'this is the second book title',
-                description: 'this is the second book description',
-                price: 50
-            }]
-        ))
+//store.dispatch(postBooks(
+//        
+//        ))
 //// DELETE a book
 //store.dispatch(deleteBooks(
 //        {id: 1}
