@@ -6,21 +6,25 @@ import {bindActionCreators} from 'redux';
 import {Grid, Col, Row, Button} from 'react-bootstrap';
 import BookItem from './bookItem';
 import BooksForm from './booksForm';
+import Cart from './cart';
 class BooksList extends React.Component {
     componentDidMount() {
-        this.props.getBooks([{
-                id: 1,
-                title: 'this is the book title',
-                description: 'this is the book description',
-                price: 44.33
-            },
-            {
-                id: 2,
-                title: 'this is the second book title',
-                description: 'this is the second book description',
-                price: 60
-            }]);
+        this.props.getBooks(
+                [{
+                        id: 1,
+                        title: 'this is the book title',
+                        description: 'this is the book description',
+                        price: 43.33
+                    },
+                    {
+                        id: 2,
+                        title: 'this is the second book title',
+                        description: 'this is the secondbook description',
+                        price: 60
+                    }]
+                )
     }
+
     render() {
         const booksList =
                 this.props.books.map(function (booksArr) {
@@ -37,11 +41,17 @@ class BooksList extends React.Component {
                 })
         return(
                 <Grid>
+        <Row>
+        <Cart/>
+        </Row>
                     <Row>
                         <Col xs={12} sm={6}>
                         <BooksForm />
                         </Col>
+                        <Col xs={12} sm={6}>
                         {booksList}
+                        </Col>
+                        
                     </Row>
                 </Grid>
                 )
