@@ -1,32 +1,54 @@
 "use strict"
 import React from 'react';
 import {connect} from 'react-redux';
-import {Panel, Col, Row, Well, Button,ButtonGroup, Label} from 'react-bootstrap';
+import {Modal, Panel, Col, Row, Well, Button, ButtonGroup, Label} from 'react-bootstrap';
 import {bindActionCreators} from 'redux';
-import {deleteCartItem} from '../../actions/cartActions';
+import {deleteCartItem, addToCart, updateCart} from '../../actions/cartActions';
 class Cart extends React.Component {
-    
-onDelete(_id){
-     const currentBookToDelete =
+
+    onDelete(_id) {
+        const currentBookToDelete =
                 this.props.cart;
 // Determine at which index in books array is the book to be deleted
-            const indexToDelete =
+        const indexToDelete =
                 currentBookToDelete.findIndex(
-                    function (cart) {
-                        return cart._id === _id;
-                    }
+                        function (cart) {
+                            return cart._id === _id;
+                        }
                 )
 //use slice to remove the book at the specified index
-            
-let cartAfterDelete=                    [...currentBookToDelete.slice(0,
-                        indexToDelete),
-                        ...currentBookToDelete.slice(indexToDelete +
-                            1)]
-            
-            
 
-    this.props.deleteCartItem(cartAfterDelete);
-}    
+        let cartAfterDelete = [...currentBookToDelete.slice(0,
+                    indexToDelete),
+            ...currentBookToDelete.slice(indexToDelete +
+                    1)]
+
+
+
+        this.props.deleteCartItem(cartAfterDelete);
+    }
+
+    onIncrement(_id) {
+        this.props.updateCart(_id, 1);
+    }
+    onDicrement(_id, quantity) {
+        if (quantity > 1) {
+            this.props.updateCart(_id, -1);
+        }
+
+    }
+constructor(){
+    super();
+    this.state = {
+        showModal:false
+    }
+}
+    open(){
+        this.setState({showModal:true})
+    }
+       close(){
+        this.setState({showModal:false})
+    }
 
     render() {
         if (this.props.cart[0]) {
@@ -53,28 +75,51 @@ let cartAfterDelete=                    [...currentBookToDelete.slice(0,
                                     </Col>
                                     <Col xs={12} sm={2}>
                                     <h6>qty. <Label
-                                            bsStyle="success"></Label></h6>
+                                            bsStyle="success">{cartArr.quantity}</Label></h6>
                                     </Col>
                                     <Col xs={6} sm={4}>
                                     <ButtonGroup
                                         style={{minWidth: '300px'}}>
-                                        <Button bsStyle="default"
+                                        <Button onClick={this.onDicrement.bind(this, cartArr._id, cartArr.quantity)} bsStyle="default"
                                                 bsSize="small">-</Button>
-                                        <Button bsStyle="default"
+                                        <Button onClick={this.onIncrement.bind(this, cartArr._id)} bsStyle="default"
                                                 bsSize="small">+</Button>
                                         <span>
                                         </span>
-                                        <Button onClick={this.onDelete.bind(this,cartArr._id)} bsStyle="danger"
+                                        <Button onClick={this.onDelete.bind(this, cartArr._id)} bsStyle="danger"
                                                 bsSize="small">DELETE</Button>
                                     </ButtonGroup>
                                     </Col>
                                 </Row>
                             </Panel>
                                         )
-                            },this)
+                            }, this)
                     return(
                             <Panel header="Cart" bsStyle="primary">
                                 {cartItemsList}
+                                <Row>
+                                    <Col xs={12}>
+                                    <h6>Total amount:</h6>
+                                    <Button onClick={this.open.bind(this)} bsStyle="success" bsSize ="small">
+                                        PROCEED TO CHECKOUT
+                                    </Button>
+                                    </Col>
+                                </Row>
+                            <Modal show={this.state.showModal} onHide={this.close.bind(this)}>
+<Modal.Header closeButton>
+<Modal.Title>Thanks you!</Modal.Title>
+</Modal.Header>
+<Modal.Body>
+<h6>Your order has been saved</h6>
+<p>You will receive an email confirmation</p>
+</Modal.Body>
+<Modal.Footer>
+<Col xs={6}>
+<h6>total $:</h6>         
+</Col>
+<Button onClick={this.close.bind(this)}>Close</Button>
+</Modal.Footer>
+</Modal>
                             </Panel>
                             )
                 }
@@ -86,8 +131,10 @@ let cartAfterDelete=                    [...currentBookToDelete.slice(0,
             }
             function mapDispatchToProps(dispatch) {
                 return bindActionCreators({
-                    deleteCartItem: deleteCartItem
-                },dispatch)
+                    deleteCartItem: deleteCartItem,
+                    addToCart: addToCart,
+                    updateCart: updateCart
+                }, dispatch)
             }
             export default
-                    connect(mapStateToProps,mapDispatchToProps)(Cart);
+                    connect(mapStateToProps, mapDispatchToProps)(Cart);
