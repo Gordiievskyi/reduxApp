@@ -2,9 +2,9 @@
 //React
 import React from 'react';
 import {render} from 'react-dom'
-import {Provider} from 'react-redux'
+        import {Provider} from 'react-redux'
 
-import {applyMiddleware, createStore} from 'redux';
+        import {applyMiddleware, createStore} from 'redux';
 import logger from 'redux-logger';
 
 //IMPORT COMBINE REDUCER
@@ -18,10 +18,16 @@ const middleware = applyMiddleware(logger);
 const store = createStore(reducers, middleware);
 
 import BookList from './components/pages/booksList';
+import Menu from './components/menu';
+import Footer from './components/footer'
 
 render(
         <Provider store={store}>
-            <BookList/>
+            <div>
+                <Menu />
+                <BookList />
+                <Footer />
+            </div>
         </Provider>, document.getElementById('app')
         );
 

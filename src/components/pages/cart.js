@@ -95,7 +95,8 @@ constructor(){
                                         )
                             }, this)
                     return(
-                            <Panel header="Cart" bsStyle="primary">
+                            <Panel bsStyle="primary">
+                    <Panel.Heading>Cart</Panel.Heading>
                                 {cartItemsList}
                                 <Row>
                                     <Col xs={12}>
