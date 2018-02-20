@@ -112,6 +112,21 @@ app.put('/books/:_id', function (req, res) {
     })
 });
 
+//GET BOOKS IMAGES API
+
+app.get('/images', function(req,res){
+    const imgFolder = __dirname + '/public/images/';
+    const fs = require('fs');
+    fs.readdir(imgFolder,function (err,files) {
+        if(err)return console.log(err);
+        const filesArr = [];
+        files.forEach(function(file){
+            filesArr.push({name:file});
+        })
+        res.json(filesArr);
+    })
+})
+
 //END APIs 
 app.listen(3001,function(err){
         if(err) console.log(err);
